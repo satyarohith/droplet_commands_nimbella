@@ -1,0 +1,5 @@
+sourceBasePath: https://raw.githubusercontent.com/satyarohith/droplet_commands_nimbella/master/src
+commands:
+  droplet_list:
+    sourcePath: /droplet_list.js
+    description: Lists your droplets.
