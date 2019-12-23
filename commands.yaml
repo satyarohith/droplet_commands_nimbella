@@ -8,3 +8,9 @@ commands:
     description: Reboot your droplet.
     parameters:
       - name: id
+  droplet_status:
+    sourcePath: /droplet_status.js
+    description: Know the status of all your droplets or a single droplet.
+    parameters:
+      - name: id
+        optional: true

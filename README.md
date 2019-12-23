@@ -6,6 +6,7 @@ Available commands:
 
 - `droplet_list` - Lists your droplets
 - `droplet_reboot` - Issues a reboot command to the provided droplet.
+- `droplet_status` - Prints the status of your droplets.
 
 ## Install
 
@@ -32,3 +33,19 @@ You need to provide your droplet ID to the command.
 ```
 
 It will initiate a reboot request.
+
+#### Droplet Status
+
+You can know the status of all your droplets by running:
+
+```
+/devops droplet_status
+```
+
+To know the status of a single droplet:
+
+```
+/devops droplet_status <droplet_id>
+```
+
+**Note**: `droplet_status` depends on the result of DigitalOcean API. It doesn't perform any extra operations.
