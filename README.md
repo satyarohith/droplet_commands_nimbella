@@ -54,4 +54,4 @@ To know the status of a single droplet:
 /devops droplet_status <droplet_id>
 ```
 
-**Note**: `droplet_status` depends on the result of DigitalOcean API. It doesn't perform any extra operations.
+**Note**: `droplet_status` depends on the result of DigitalOcean API. It doesn't perform any extra verifications.
