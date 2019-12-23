@@ -107,7 +107,7 @@ async function _command(params, commandText, secrets = {}) {
   }
 
   return {
-    response_type: 'in_channel', // or `ephemeral` for private response
+    response_type: 'in_channel', // eslint-disable-line camelcase
     blocks: result
   };
 }
