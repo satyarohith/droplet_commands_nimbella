@@ -31,6 +31,36 @@ const getContent = (url, headers) => {
 };
 
 /**
+ * Calculates current page and total pages of a list
+ * @param  {Object} links - links object returned by api
+ * @returns {Object} An Object containing totalPages and currentPage values
+ */
+const calculatePages = links => {
+  let totalPages = 1;
+  let currentPage = 1;
+
+  if (links && links.pages) {
+    if (links.pages.next) {
+      const nextPage = new URL(links.pages.next).searchParams.get('page');
+      currentPage = Number(nextPage) - 1;
+    } else if (links.pages.prev && !links.pages.next) {
+      const prevPage = new URL(links.pages.prev).searchParams.get('page');
+      currentPage = Number(prevPage) + 1;
+    }
+
+    if (links.pages.last) {
+      const lastPage = new URL(links.pages.last).searchParams.get('page');
+      totalPages = Number(lastPage);
+    } else if (links.pages.prev && !links.pages.last) {
+      const prevPage = new URL(links.pages.prev).searchParams.get('page');
+      totalPages = Number(prevPage) + 1;
+    }
+  }
+
+  return {totalPages, currentPage};
+};
+
+/**
  * @description undefined
  * @param {ParamsType} params list of command parameters
  * @param {?string} commandText text message
@@ -38,8 +68,8 @@ const getContent = (url, headers) => {
  * @return {Promise<SlackBodyType>} Response body
  */
 async function _command(params, commandText, secrets = {}) {
-  const programStart = Date.now();
   const {digitaloceanApiKey} = secrets;
+  const {page = 1} = params;
   if (!digitaloceanApiKey) {
     return {
       text:
@@ -55,8 +85,8 @@ async function _command(params, commandText, secrets = {}) {
   };
 
   try {
-    const {droplets} = JSON.parse(
-      await getContent(BASE_URL + '/droplets?per_page=10', headers)
+    const {droplets, links} = JSON.parse(
+      await getContent(BASE_URL + `/droplets?per_page=10&page=${page}`, headers)
     );
 
     for (const droplet of droplets) {
@@ -87,15 +117,18 @@ async function _command(params, commandText, secrets = {}) {
       });
     }
 
-    result.push({
-      type: 'context',
-      elements: [
-        {
-          type: 'mrkdwn',
-          text: `Time taken: ~${Date.now() - programStart}ms`
-        }
-      ]
-    });
+    const {totalPages, currentPage} = calculatePages(links);
+    if (totalPages > 1) {
+      result.push({
+        type: 'context',
+        elements: [
+          {
+            type: 'mrkdwn',
+            text: `Current Page: *${currentPage}* Total Pages: *${totalPages}*`
+          }
+        ]
+      });
+    }
   } catch (error) {
     result.push({
       type: 'section',

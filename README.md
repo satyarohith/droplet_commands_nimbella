@@ -24,6 +24,12 @@ You can list your droplets with your current app:
 /devops droplet_list
 ```
 
+If you've more than 10 droplets under your account, you can specify the page number to retrieve additional droplets.
+
+```
+/devops droplet_list <page_no>
+```
+
 #### Droplet Reboot
 
 You need to provide your droplet ID to the command.

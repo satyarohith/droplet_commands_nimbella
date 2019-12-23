@@ -3,6 +3,9 @@ commands:
   droplet_list:
     sourcePath: /droplet_list.js
     description: Lists your droplets.
+    parameters:
+      - name: page
+        optional: true
   droplet_reboot:
     sourcePath: /droplet_reboot.js
     description: Reboot your droplet.
