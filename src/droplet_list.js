@@ -107,11 +107,11 @@ async function _command(params, commandText, secrets = {}) {
           },
           {
             type: 'mrkdwn',
-            text: `IPv4: ${IPv4}`
+            text: `IP: \`${IPv4}\``
           },
           {
             type: 'mrkdwn',
-            text: `Status: ${droplet.status}`
+            text: `Status: *${droplet.status}*`
           }
         ]
       });
